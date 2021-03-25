@@ -32,7 +32,7 @@ public class RegisterPage {
         email.sendKeys(username);
         password.sendKeys(passwd);
         checker.click();
-        submit.click();
+        submit.submit();
     }
 
 }

@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -41,6 +42,9 @@ public class AuthTest {
         driver.get("https://www.olx.ua/uk/");
         homePage = new HomePage(driver);
         homePage.goToRegistration();
+        wait = new WebDriverWait(driver, 15);
+        wait.until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginUser("ggxmtpvgnqckmxfefb@niwghx.com", "String1@");
         Assert.assertEquals("Не вдалося підтвердити користувача.", loginPage.textOfError());
@@ -51,12 +55,19 @@ public class AuthTest {
         driver.get("https://www.olx.ua/uk/");
         homePage = new HomePage(driver);
         homePage.goToRegistration();
+        wait = new WebDriverWait(driver, 15);
+        wait.until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
         LoginPage loginPage = new LoginPage(driver);
         loginPage.goToRegisterPage();
+        WebDriverWait wait1 = new WebDriverWait(driver, 15);
+        wait1.until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
         RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.registerUser("ggxmtpvgnqckmxfefb"+ ThreadLocalRandom.current().nextInt(1000, 9999 + 1) + "@gmail.com", "String1@");
-        wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.elementToBeClickable(By.className("login-box-confirm__link")));
+        registerPage.registerUser("asdalkjlkasd"+ ThreadLocalRandom.current().nextInt(10000, 99999 + 1) + "@gmail.com", "String1@");
+        WebDriverWait wait2 = new WebDriverWait(driver, 15);
+        wait2.until(
+                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
         Assert.assertEquals("Підтвердження", driver.getTitle());
     }
 

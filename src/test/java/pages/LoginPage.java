@@ -37,7 +37,7 @@ public class LoginPage {
     public void loginUser(String username, String passwd) {
         email.sendKeys(username);
         password.sendKeys(passwd);
-        submit.click();
+        submit.submit();
     }
 
     public void goToRegisterPage() {

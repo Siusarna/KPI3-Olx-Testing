@@ -12,13 +12,13 @@ import org.openqa.selenium.support.PageFactory;
 public class HomePage {
     private WebDriver driver;
 
-    @FindBy(xpath = "//*[@id=\"innerLayout\"]/header/div/div/ul/li[2]/div/a")
+    @FindBy(css = "span.link")
     private WebElement login;
 
-    @FindBy(id = "headerSearch")
+    @FindBy(name = "q")
     private WebElement searcher;
 
-    @FindBy(id = "changeLang")
+    @FindBy(linkText = "язык")
     private WebElement changeLang;
 
     public HomePage(WebDriver driver) {
