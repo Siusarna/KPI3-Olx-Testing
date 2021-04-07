@@ -22,7 +22,7 @@ public class AuthTest {
 
     @Before
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/home/circleci/circleci-demo-java-spring/src/main/resources/chromedriver.exe");
         System.out.println("start");
 
         ChromeOptions options = new ChromeOptions();
