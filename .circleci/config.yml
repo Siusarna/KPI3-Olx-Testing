@@ -15,7 +15,7 @@ jobs:
           key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
 
       - run: mvn dependency:go-offline
-      - run: chmod 777 ./src/main/resources/chromedriver
+      - run: chmod 777 /home/circleci/circleci-demo-java-spring/src/main/resources/chromedriver.exe
 
       - save_cache:
           paths:
