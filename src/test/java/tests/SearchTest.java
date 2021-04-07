@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HomePage;
@@ -20,7 +21,9 @@ public class SearchTest {
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
         System.out.println("start");
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         // full size window
         driver.manage().window().maximize();
     }
