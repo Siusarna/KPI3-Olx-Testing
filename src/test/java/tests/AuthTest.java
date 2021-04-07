@@ -55,26 +55,26 @@ public class AuthTest {
         Assert.assertEquals("Не вдалося підтвердити користувача.", loginPage.textOfError());
     }
 
-    @Test
-    public void testRegisterNewUser() {
-        driver.get("https://www.olx.ua/uk/");
-        homePage = new HomePage(driver);
-        homePage.goToRegistration();
-        wait = new WebDriverWait(driver, 15);
-        wait.until(
-                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.goToRegisterPage();
-        WebDriverWait wait1 = new WebDriverWait(driver, 15);
-        wait1.until(
-                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-        RegisterPage registerPage = new RegisterPage(driver);
-        registerPage.registerUser("asdalkjlkasd"+ ThreadLocalRandom.current().nextInt(10000, 99999 + 1) + "@gmail.com", "String1@");
-        WebDriverWait wait2 = new WebDriverWait(driver, 15);
-        wait2.until(
-                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-        Assert.assertEquals("Підтвердження", driver.getTitle());
-    }
+//    @Test
+//    public void testRegisterNewUser() {
+//        driver.get("https://www.olx.ua/uk/");
+//        homePage = new HomePage(driver);
+//        homePage.goToRegistration();
+//        wait = new WebDriverWait(driver, 15);
+//        wait.until(
+//                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+//        LoginPage loginPage = new LoginPage(driver);
+//        loginPage.goToRegisterPage();
+//        WebDriverWait wait1 = new WebDriverWait(driver, 15);
+//        wait1.until(
+//                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+//        RegisterPage registerPage = new RegisterPage(driver);
+//        registerPage.registerUser("asdalkjlkasd"+ ThreadLocalRandom.current().nextInt(10000, 99999 + 1) + "@gmail.com", "String1@");
+//        WebDriverWait wait2 = new WebDriverWait(driver, 15);
+//        wait2.until(
+//                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+//        Assert.assertEquals("Підтвердження", driver.getTitle());
+//    }
 
     @After
     public void teardown() {
