@@ -1,56 +1,70 @@
-version: 2.0
-
+version: 2
 jobs:
-  test:
-    parallelism: 2
-    docker:
-      - image: cimg/openjdk:15.0.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
-      - attach_workspace:
-          at: ./target
-      - run: |
-          ./mvnw \
-          -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
-          | circleci tests split --split-by=timings); \
-          do basename $file \
-          | sed -e "s/.java/,/"; \
-          done | tr -d '\r\n') \
-          -e test verify
-      - store_test_results:
-          path: target/surefire-reports
-      - store_artifacts:
-          path: target/site/jacoco/index.html
-
   build:
     docker:
       - image: cimg/openjdk:15.0.0
+
+
+    working_directory : ~/testHTMLproject
+
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
-            - v1-dependencies-
-      - run: ./mvnw -Dmaven.test.skip=true package
+
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build testHTMLproject -t html-server-image:v1
+
+      - run:
+          name: Run docker image
+          command: |
+            docker run -d -p 80:80 --name htmlContainer html-server-image:v1
+
+
+      - run:
+          name: Check the images present
+          command: |
+            docker ps
+
+      - run:
+          name: Check if server is up
+          command: |
+            curl localhost:80
+
+      - checkout
+
+      - run: mkdir test-reports
+
+      - run:
+          name: Download Selenium
+          command: |
+            curl -O http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+
+      - run:
+          name: Start Selenium
+          command: |
+            java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
+          background: true
+
+      - run: mvn dependency:go-offline
+
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - target/
 
-workflows:
-  version: 2
+      # run tests!
+      - run: mvn clean integration-test
 
-  build-then-test:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/testng/results/
+            find . -type f -regex "./test-output/emailable-report.html" -exec cp {} ~/testng/results/ \;
+          when: always
+      - store_test_results:
+          path: ~/testng/results/
+      - store_artifacts:
+          path: ~/testng/results/
+      - store_artifacts:
+          path:  testng/results/
