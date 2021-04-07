@@ -19,7 +19,7 @@ public class SearchTest {
 
     @Before
     public void setup() {
-        System.setProperty("webdriver.chrome.driver", "../../../main/resources/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "/src/main/resources/chromedriver.exe");
         System.out.println("start");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
