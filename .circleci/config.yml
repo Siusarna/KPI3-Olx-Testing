@@ -12,6 +12,7 @@ jobs:
             - v1-dependencies-
       - attach_workspace:
           at: ./target
+      - run: chmod 777 /home/circleci/project/src/main/resources/chromedriver.exe
       - run: |
           mvn \
           -Dtest=$(for file in $(circleci tests glob "src/test/**/**.java" \
